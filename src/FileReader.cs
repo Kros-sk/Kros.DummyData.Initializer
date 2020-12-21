@@ -73,6 +73,8 @@ namespace Kros.DummyData.Initializer
         /// <param name="context">The context.</param>
         public async Task<string> ReadAsync(string filePath, ITemplateContext context)
         {
+            _logger.LogTrace("Read file: '{0}'", filePath);
+
             Template template = Template.Parse(await File.ReadAllTextAsync(filePath));
             TemplateContext c = CreateScribanContext(context);
 

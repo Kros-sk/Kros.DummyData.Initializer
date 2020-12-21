@@ -45,12 +45,16 @@ namespace Kros.DummyData.Initializer
                 new Option<DirectoryInfo>(
                    new string[]{ "--dest", "-d"},
                    () => new DirectoryInfo(PathHelper.BuildPath(Environment.CurrentDirectory, "output")),
-                   "Directory where the generated data will be saved.")
-            }.WithHandler(CommandHandler.Create<DirectoryInfo, DirectoryInfo>(Preview));
+                   "Directory where the generated data will be saved."),
+                new Option<bool>(
+                   new [] { "--verbose", "-v"},
+                   () => false,
+                   "Verbose")
+            }.WithHandler(CommandHandler.Create<DirectoryInfo, DirectoryInfo, bool>(Preview));
 
-        private async static Task<int> Preview(DirectoryInfo source, DirectoryInfo dest)
+        private async static Task<int> Preview(DirectoryInfo source, DirectoryInfo dest, bool verbose)
         {
-            using ILoggerFactory loggerFactory = CreateLoggerFactory(false);
+            using ILoggerFactory loggerFactory = CreateLoggerFactory(verbose);
             try
             {
                 var context = await InitializerContext.CreateAsync(source, loggerFactory);
@@ -75,7 +79,7 @@ namespace Kros.DummyData.Initializer
                 options.SingleLine = true;
                 options.ColorBehavior = Microsoft.Extensions.Logging.Console.LoggerColorBehavior.Enabled;
                 options.TimestampFormat = "hh:mm:ss ";
-            }).SetMinimumLevel(verbose? LogLevel.Trace: LogLevel.Information);
+            }).SetMinimumLevel(verbose ? LogLevel.Trace : LogLevel.Information);
         });
 
         private async static Task<int> InitializerRun(DirectoryInfo source, bool verbose)

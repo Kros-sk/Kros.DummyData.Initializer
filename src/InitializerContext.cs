@@ -75,6 +75,8 @@ namespace Kros.DummyData.Initializer
             };
             context.MergeVariables(options.Variables);
 
+            context.Logger.LogInformation("Context created. Source directory: '{0}'", sourceDirectory.FullName);
+
             return context;
         }
 

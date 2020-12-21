@@ -2,7 +2,7 @@
   "profiles": {
     "Kros.DummyData.Initializer": {
       "commandName": "Project",
-      "commandLineArgs": "info"
+      "commandLineArgs": "preview -s d:\\Projects\\GitHub\\kros-sk\\Kros.DummyData.Initializer\\demoData -d d:\\Zmaz\\demooutput  -v"
     }
   }
 }
