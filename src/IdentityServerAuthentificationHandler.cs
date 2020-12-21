@@ -44,7 +44,6 @@ namespace Kros.DummyData.Initializer
             }
 
             httpRequest.WithHeader("authorization", $"Bearer {token}");
-
         }
 
         private async Task<string> GetTokenAsync(User user, ILogger logger)

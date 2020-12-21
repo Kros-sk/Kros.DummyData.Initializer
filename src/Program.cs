@@ -12,7 +12,6 @@ namespace Kros.DummyData.Initializer
     {
         async static Task Main(string[] args)
         {
-
             var main = new RootCommand
             {
                 CreateRunCommand(),
@@ -47,7 +46,6 @@ namespace Kros.DummyData.Initializer
                    new string[]{ "--dest", "-d"},
                    () => new DirectoryInfo(PathHelper.BuildPath(Environment.CurrentDirectory, "output")),
                    "Directory where the generated data will be saved.")
-
             }.WithHandler(CommandHandler.Create<DirectoryInfo, DirectoryInfo>(Preview));
 
         private async static Task<int> Preview(DirectoryInfo source, DirectoryInfo dest)

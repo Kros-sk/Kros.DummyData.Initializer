@@ -31,7 +31,7 @@ namespace Kros.DummyData.Initializer
         /// <param name="min">The minimum.</param>
         /// <param name="max">The maximum.</param>
         public static string RandomDouble(double min, double max)
-            => (_randomDouble.NextDouble() * (min - max) + min).ToString();
+            => ((_randomDouble.NextDouble() * (min - max)) + min).ToString();
 
         /// <summary>
         /// Lorems the ipsum.
