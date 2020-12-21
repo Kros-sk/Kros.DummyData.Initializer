@@ -1,0 +1,4 @@
+{
+    "Name": "orders_user1",
+    "Path": "/api/orders/{{outputs.users_1}}/"
+}

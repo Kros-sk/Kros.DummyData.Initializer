@@ -1,0 +1,23 @@
+[
+    {{ for i in 1..50 }} 
+    {
+        "buyerId": {{outputs.users_1}},
+        "totalPrice": {{random_int 10 300}}        
+        "items": [
+            {{ 
+                for j in 1..5        
+                    random_int 1 1000
+                    if j < 5
+                        ","
+                    end
+                end 
+            }}
+        ]
+    }
+    {{
+        if i < 50
+            ","
+        end
+    }}
+    {{ end }}
+]

@@ -1,0 +1,5 @@
+{
+    "Name": "users",
+    "Path": "/api/users/",
+    "ExtractResponseProperty": "id"
+}

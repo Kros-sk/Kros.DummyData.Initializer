@@ -1,0 +1,18 @@
+{
+    "BaseUrl": "http://localhost:5000",
+    "Name": "catalog",
+    "Path": "/api/catalog/",
+    "QueryParams": {},
+    "Headers": {
+        "x-header-1": "header1"
+    },
+    "Variables": {
+        "variable1": "value1"
+    },
+    "ContinueOnError": true,
+    "User":{
+        "Name": "userName",
+        "Password": "userPassword"
+    },
+    "ExtractResponseProperty": "id"    
+}

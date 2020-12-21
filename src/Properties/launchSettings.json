@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Kros.DummyData.Initializer": {
+      "commandName": "Project",
+      "commandLineArgs": "info"
+    }
+  }
+}

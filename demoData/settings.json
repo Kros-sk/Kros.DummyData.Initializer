@@ -1,0 +1,28 @@
+{
+    "BaseUrl": "http://localhost:3000",
+    "Variables": {
+        "variable1": "value1",
+        "variable2": "value2"
+    },
+    "DefaultHeaders": {
+        "x-header-1": "header1"
+    },
+    "Proxy": {
+        "Address": "http://192.155.1.1:1111",
+        "BypassProxyOnLocal": true
+    },
+    "Retrying": [
+        1,
+        3,
+        5
+    ],
+    "RequestTimeOut": 180,
+    "AuthOptions": {
+        "AuthServer": "https://identityserver.com",
+        "ClientId": "yourClient",
+        "User":{
+            "Name": "userName",
+            "Password": "userPassword"
+        }
+    }
+}

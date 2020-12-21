@@ -1,0 +1,17 @@
+[
+    {{ for i in 1..1000 }} 
+    {
+        "requestId": "{{i}}",
+        "code": "10-00-{{i}}",
+        "name": "{{lorem_ipsum 30}}",
+        "description": "{{lorem_ipsum 60}}",
+        "price": {{random_int 10 300}},
+        "type": "{{variables.variable1}}"
+    }
+    {{
+        if i < 1000
+            ","
+        end
+    }}
+    {{ end }}
+]
