@@ -77,7 +77,7 @@ namespace Kros.DummyData.Initializer
         /// Randoms the person.
         /// </summary>
         /// <param name="separator">The separator.</param>
-        public static string RandomPerson(string separator)
+        public static string RandomPersonName(string separator)
         {
             IPerson person = _personGenerator.Next();
 

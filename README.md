@@ -250,12 +250,12 @@ Random person email.
 random_email
 ```
 
-#### random_person
+#### random_person_name
 
 Random person name. Params: `nameSeparator`.
 
 ```properties
-random_peson '-'
+random_peson_name '-'
 ```
 
 #### random_person
