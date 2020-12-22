@@ -22,8 +22,8 @@ namespace Kros.DummyData.Initializer
         /// </summary>
         /// <param name="min">The minimum.</param>
         /// <param name="max">The maximum.</param>
-        public static string RandomInt(int min, int max)
-            => _randomInt.Next(min, max).ToString();
+        public static int RandomInt(int min, int max)
+            => _randomInt.Next(min, max);
 
         /// <summary>
         /// Randoms the double.
