@@ -7,13 +7,13 @@
 `datamock` is implemented as a .NET Core Global Tool, so its installation is quite simple:
 
 ```properties
-dotnet tool install -g Kros.DummyData.Inicializer
+dotnet tool install -g Kros.DummyData.Initializer
 ```
 
 To update it to the latest version, if it was installed previously, use:
 
 ```properties
-dotnet tool update -g Kros.DummyData.Inicializer
+dotnet tool update -g Kros.DummyData.Initializer
 ```
 
 ## Commands
