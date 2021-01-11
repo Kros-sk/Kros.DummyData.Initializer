@@ -102,7 +102,10 @@ namespace Kros.DummyData.Initializer
         public async IAsyncEnumerable<JsonElement> GetRequestBodiesAsync(Request request)
         {
             foreach (FileInfo file in request.Directory.GetFiles("*.json")
-                .Where(p => !p.Name.Equals(Constants.RequestFileName, StringComparison.OrdinalIgnoreCase)))
+                .Where(p =>
+                    !p.Name.Equals(Constants.RequestFileName, StringComparison.OrdinalIgnoreCase)
+                    && !p.Name.Equals(Constants.RepeatFileName, StringComparison.OrdinalIgnoreCase)
+                ))
             {
                 IEnumerable<JsonElement> data = await _fileReader.DeserializeAsync<IEnumerable<JsonElement>>(
                     file.FullName,
@@ -119,14 +122,19 @@ namespace Kros.DummyData.Initializer
         /// Gets the request bodies asynchronous.
         /// </summary>
         /// <param name="request">The request.</param>
-        public async IAsyncEnumerable<(FileInfo fileInfo, string fileContent)> GetFiles(Request request)
+        /// <param name="repeat">Repeat definition.</param>
+        public async IAsyncEnumerable<(FileInfo fileInfo, string fileContent)> GetFiles(Request request, RepeatDefinition repeat)
         {
+            var indexVariable = new Dictionary<string, string>() { { Constants.IndexVariableName, repeat.Name } };
+
             foreach (FileInfo file in request.Directory.GetFiles("*.json")
-                .Where(p => !p.Name.Equals(Constants.RequestFileName, StringComparison.OrdinalIgnoreCase)))
+                .Where(p => !p.Name.Equals(Constants.RepeatFileName, StringComparison.OrdinalIgnoreCase)))
             {
                 yield return (file, await _fileReader.ReadAsync(
                     file.FullName,
-                    this.CloneAndMerge(request.Variables)));
+                    this.CloneAndMerge(request.Variables)
+                        .MergeVariables(repeat.Variables)
+                        .MergeVariables(indexVariable)));
             }
         }
 
@@ -196,7 +204,17 @@ namespace Kros.DummyData.Initializer
                 return null;
             }
 
-            return await _fileReader.DeserializeAsync<Request>(path, this);
+            IEnumerable<RepeatDefinition> repeatDefinitions = null;
+
+            if (directory.TryGetFilePath(Constants.RepeatFileName, out string repeat))
+            {
+                repeatDefinitions = await _fileReader.DeserializeAsync<IEnumerable<RepeatDefinition>>(repeat, this);
+            }
+
+            Request request = await _fileReader.DeserializeAsync<Request>(path, this);
+            request.AddRepeatDefinitions(repeatDefinitions);
+
+            return request;
         }
 
         private async static Task<InitializerOptions> CheckAndLoadOptionsAsync(DirectoryInfo directory)

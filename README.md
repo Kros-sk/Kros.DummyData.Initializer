@@ -277,3 +277,73 @@ Random lorem ipsum text. Params: `maxLength`.
 ```properties
 lorem_ipsum 30
 ```
+
+## Repeat definitions
+
+For `preview` command is allowed function named repating. Sometimes you need to use a same request definition multiple times, for example for multiple users, tenants, ... In this case, you can create a `repeat.json` file in the directory where the request definition is located. This file contains a list of iterations defined by name, and it is possible to add custom variables to each iteration to be used in further processing.
+
+```json
+[
+ {
+     "Name": "company1",
+     "Variables":{
+         "userName": "user1@gmail.com",
+         "userPassword": "password"
+     }
+ },
+ {
+    "Name": "company2",
+    "Variables":{
+        "userName": "user2@gmail.com",
+        "userPassword": "password"
+    }
+ },
+ {
+    "Name": "company3",
+    "Variables":{
+        "userName": "user3@gmail.com",
+        "userPassword": "password"
+    }
+ }
+]
+```
+
+> This file is also processed using `scriban`, so it is possible to use its features.
+
+A separate subdirectory is created for each iteration according to the name of the iteration. The definition of the request and its data will be modified in the given subdirectory.
+
+### Dependencies
+
+If you need to reference to the name of the current iteration, it is available in the variable `{{variable.index}}`. This is needed, for example, in the `requestId` definition.
+
+```json
+{
+    "requestId": "{{variables.index}}_{{i}}"    
+},
+```
+
+In other requests, where we use `repeats`, and in each iteration we want to refer outputs from different iteration of other requests, we must do it indirectly through variables. In the definition of iteration we define the required variable, for example `companyId`.
+
+```json
+{
+    "Name": "company1-user1",
+    "Variables":{
+        "companyId": "{{ outputs.companies_company1_1 }}",
+        "userName": "user1@gmail.com",
+        "userPassword": "password"
+    }
+},
+```
+
+Next, we can use this variable in the request definition.
+
+```json
+{
+    "Name": "invoices",
+    "Path": "/companies/{{variables.companyId}}/invoices",
+    "User":{
+        "Name": "{{variables.userName}}",
+        "Password": "{{variables.userPassword}}"
+    }
+}
+```

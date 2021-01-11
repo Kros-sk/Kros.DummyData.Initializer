@@ -13,16 +13,19 @@ namespace Kros.DummyData.Initializer
 
             await foreach (Request request in context.GetRequestsAsync())
             {
-                await foreach ((FileInfo fileInfo, string content) in context.GetFiles(request))
+                foreach (RepeatDefinition repeat in request.Repeats)
                 {
-                    string directory = PathHelper.BuildPath(destination.FullName, request.Directory.Name);
-                    if (!Directory.Exists(directory))
+                    await foreach ((FileInfo fileInfo, string content) in context.GetFiles(request, repeat))
                     {
-                        Directory.CreateDirectory(directory);
-                    }
+                        string directory = PathHelper.BuildPath(destination.FullName, request.Directory.Name, repeat.Name);
+                        if (!Directory.Exists(directory))
+                        {
+                            Directory.CreateDirectory(directory);
+                        }
 
-                    string path = PathHelper.BuildPath(directory, fileInfo.Name);
-                    await File.WriteAllTextAsync(path, content);
+                        string path = PathHelper.BuildPath(directory, fileInfo.Name);
+                        await File.WriteAllTextAsync(path, content);
+                    }
                 }
             }
 

@@ -11,6 +11,7 @@ namespace Kros.DummyData.Initializer
     public class Request
     {
         private string _id;
+        private IEnumerable<RepeatDefinition> _repeatDefinitions;
 
         internal string Id
         {
@@ -55,7 +56,7 @@ namespace Kros.DummyData.Initializer
         /// <summary>
         /// Gets or sets the variables.
         /// </summary>
-        public Dictionary<string, string> Variables { get; set; } = new Dictionary<string, string>();
+        public IDictionary<string, string> Variables { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets or sets the extract response property.
@@ -76,5 +77,25 @@ namespace Kros.DummyData.Initializer
         /// Gets or sets a value indicating whether [continue on error].
         /// </summary>
         public bool ContinueOnError { get; set; } = false;
+
+        internal void AddRepeatDefinitions(IEnumerable<RepeatDefinition> repeatDefinitions)
+        {
+            _repeatDefinitions = repeatDefinitions;
+        }
+
+        /// <summary>
+        /// Gets the repeats.
+        /// </summary>
+        public IEnumerable<RepeatDefinition> Repeats
+        {
+            get
+            {
+                if (_repeatDefinitions is null)
+                {
+                    _repeatDefinitions = RepeatDefinition.Default;
+                }
+                return _repeatDefinitions;
+            }
+        }
     }
 }

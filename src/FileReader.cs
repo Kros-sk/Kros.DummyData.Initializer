@@ -78,7 +78,7 @@ namespace Kros.DummyData.Initializer
             Template template = Template.Parse(await File.ReadAllTextAsync(filePath));
             TemplateContext c = CreateScribanContext(context);
 
-            string result = template.Render(c);
+            string result = await template.RenderAsync(c);
 
             ReportErrors(template);
 
@@ -87,7 +87,7 @@ namespace Kros.DummyData.Initializer
 
         private TemplateContext CreateScribanContext(ITemplateContext context)
         {
-            var c = new TemplateContext();
+            var c = new CustomTemplateContext();
             var scriptObject = new ScriptObject();
             scriptObject.Import(new
             {
