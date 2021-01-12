@@ -147,7 +147,7 @@ namespace Kros.DummyData.Initializer
         {
             Url url = (request.BasePath ?? Options.BaseUrl).AppendPathSegment(request.Path);
             url = AddQueryParams(request, url);
-            IFlurlRequest httpRequest = url.ConfigureRequest((o) =>{});
+            IFlurlRequest httpRequest = url.ConfigureRequest((o) => { });
 
             AddHeaders(request, httpRequest);
 
@@ -209,12 +209,24 @@ namespace Kros.DummyData.Initializer
             if (directory.TryGetFilePath(Constants.RepeatFileName, out string repeat))
             {
                 repeatDefinitions = await _fileReader.DeserializeAsync<IEnumerable<RepeatDefinition>>(repeat, this);
+                RepeatVariablesToOutput(repeatDefinitions);
             }
 
             Request request = await _fileReader.DeserializeAsync<Request>(path, this);
             request.AddRepeatDefinitions(repeatDefinitions);
 
             return request;
+        }
+
+        private void RepeatVariablesToOutput(IEnumerable<RepeatDefinition> repeats)
+        {
+            foreach (RepeatDefinition repeat in repeats)
+            {
+                foreach (KeyValuePair<string, string> item in repeat.Variables)
+                {
+                    Outputs[$"{repeat.Name}_{item.Key}"] = item.Value;
+                }
+            }
         }
 
         private async static Task<InitializerOptions> CheckAndLoadOptionsAsync(DirectoryInfo directory)

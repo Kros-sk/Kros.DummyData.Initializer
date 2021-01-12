@@ -2,6 +2,7 @@
 using MMLib.RapidPrototyping.Models;
 using Scriban.Runtime;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Kros.DummyData.Initializer
@@ -90,5 +91,13 @@ namespace Kros.DummyData.Initializer
         /// <param name="separator">The separator.</param>
         public static IPerson RandomPerson()
             => _personGenerator.Next();
+
+        /// <summary>
+        /// Gets the by key.
+        /// </summary>
+        /// <param name="variables">The variables.</param>
+        /// <param name="key">The key.</param>
+        public static string GetByKey(Dictionary<string, string> variables, string key)
+            => variables[key];
     }
 }

@@ -49,17 +49,21 @@ namespace Kros.DummyData.Initializer
                 new Option<bool>(
                    new [] { "--verbose", "-v"},
                    () => false,
-                   "Verbose")
-            }.WithHandler(CommandHandler.Create<DirectoryInfo, DirectoryInfo, bool>(Preview));
+                   "Verbose"),
+                new Option<bool>(
+                   new [] { "--compress", "-c"},
+                   () => false,
+                   "Compress content")
+            }.WithHandler(CommandHandler.Create<DirectoryInfo, DirectoryInfo, bool, bool>(Preview));
 
-        private async static Task<int> Preview(DirectoryInfo source, DirectoryInfo dest, bool verbose)
+        private async static Task<int> Preview(DirectoryInfo source, DirectoryInfo dest, bool verbose, bool compress)
         {
             using ILoggerFactory loggerFactory = CreateLoggerFactory(verbose);
             try
             {
                 var context = await InitializerContext.CreateAsync(source, loggerFactory);
 
-                await DataGenerator.GenerateAsync(context, dest);
+                await DataGenerator.GenerateAsync(context, dest, compress);
 
                 return 0;
             }

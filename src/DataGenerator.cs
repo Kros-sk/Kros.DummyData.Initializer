@@ -1,5 +1,6 @@
 ﻿using Kros.IO;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace Kros.DummyData.Initializer
 {
     internal static class DataGenerator
     {
-        public async static Task GenerateAsync(InitializerContext context, DirectoryInfo destination)
+        public async static Task GenerateAsync(InitializerContext context, DirectoryInfo destination, bool compress)
         {
             context.Logger.LogInformation("Generating start.");
 
@@ -23,8 +24,11 @@ namespace Kros.DummyData.Initializer
                             Directory.CreateDirectory(directory);
                         }
 
+                        var obj = JsonConvert.DeserializeObject(content);
+                        string contentToWrite = JsonConvert.SerializeObject(obj, compress ? Formatting.None : Formatting.Indented);
+
                         string path = PathHelper.BuildPath(directory, fileInfo.Name);
-                        await File.WriteAllTextAsync(path, content);
+                        await File.WriteAllTextAsync(path, contentToWrite);
                     }
                 }
             }

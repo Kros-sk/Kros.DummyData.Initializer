@@ -46,6 +46,10 @@ datamock preview -s D:/dummyData -d D:/dummyData/output
 
 **--dest, -d**: Directory where the generated data will be saved.
 
+**--verbose, -v**: Verbose.
+
+**--compress, -c**: Compress final `JSON` written to file.
+
 ## Main idea
 
 The purpose of this tool is to generate test data based on templates and send this data to your API. The tool is general, it does everything based on data in a specific directory structure.
@@ -278,6 +282,19 @@ Random lorem ipsum text. Params: `maxLength`.
 lorem_ipsum 30
 ```
 
+#### get_by_key
+
+Get value from dictionary by key. 
+
+Params: 
+
+- `dictionary`: dictionary `<string,string>` from which I want the value.
+- `key`: the key by which I want the value.
+
+```properties
+value = get_by_key outputs "key"
+```
+
 ## Repeat definitions
 
 For `preview` command is allowed function named repating. Sometimes you need to use a same request definition multiple times, for example for multiple users, tenants, ... In this case, you can create a `repeat.json` file in the directory where the request definition is located. This file contains a list of iterations defined by name, and it is possible to add custom variables to each iteration to be used in further processing.
@@ -311,6 +328,8 @@ For `preview` command is allowed function named repating. Sometimes you need to 
 > This file is also processed using `scriban`, so it is possible to use its features.
 
 A separate subdirectory is created for each iteration according to the name of the iteration. The definition of the request and its data will be modified in the given subdirectory.
+
+> Variables from repeat definition are add to `output` variables by key `name_variableKey`. E.g.: `{{outputs.company1_userName}}`.
 
 ### Dependencies
 
