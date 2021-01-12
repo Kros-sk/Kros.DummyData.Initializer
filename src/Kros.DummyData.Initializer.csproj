@@ -8,7 +8,7 @@
     <ToolCommandName>datamock</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
 
-    <Version>1.3.0</Version>
+    <Version>1.4.0</Version>
     <Authors>KROS a. s.</Authors>
     <Company>KROS a. s.</Company>
     <Description>DummyData.Initializer (datamock) is tool for generating data to your api services.</Description>
