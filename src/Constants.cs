@@ -8,5 +8,6 @@
         public const string RequestIdPropertyName = "requestId";
         public const string IndexVariableName = "index";
         public const string Outputs = "outputs";
+        public const string Comment = "#";
     }
 }

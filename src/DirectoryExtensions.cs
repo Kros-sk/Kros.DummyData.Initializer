@@ -1,5 +1,7 @@
 ﻿using Kros.IO;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Kros.DummyData.Initializer
 {
@@ -11,5 +13,8 @@ namespace Kros.DummyData.Initializer
 
             return File.Exists(filePath);
         }
+
+        public static IEnumerable<FileInfo> GetJsonFiles(this DirectoryInfo value)
+            => value.GetFiles("*.json").Where(f => !f.Name.StartsWith(Constants.Comment));
     }
 }

@@ -101,7 +101,7 @@ namespace Kros.DummyData.Initializer
         /// <param name="request">The request.</param>
         public async IAsyncEnumerable<JsonElement> GetRequestBodiesAsync(Request request)
         {
-            foreach (FileInfo file in request.Directory.GetFiles("*.json")
+            foreach (FileInfo file in request.Directory.GetJsonFiles()
                 .Where(p =>
                     !p.Name.Equals(Constants.RequestFileName, StringComparison.OrdinalIgnoreCase)
                     && !p.Name.Equals(Constants.RepeatFileName, StringComparison.OrdinalIgnoreCase)
@@ -127,7 +127,7 @@ namespace Kros.DummyData.Initializer
         {
             var indexVariable = new Dictionary<string, string>() { { Constants.IndexVariableName, repeat.Name } };
 
-            foreach (FileInfo file in request.Directory.GetFiles("*.json")
+            foreach (FileInfo file in request.Directory.GetJsonFiles()
                 .Where(p => !p.Name.Equals(Constants.RepeatFileName, StringComparison.OrdinalIgnoreCase)))
             {
                 yield return (file, await _fileReader.ReadAsync(
@@ -183,6 +183,10 @@ namespace Kros.DummyData.Initializer
         {
             foreach (DirectoryInfo directory in directoryInfos.OrderBy(p => p.Name))
             {
+                if (directory.Name.StartsWith(Constants.Comment))
+                {
+                    continue;
+                }
                 Request request = await GetRequestAsync(directory);
                 if (request != null)
                 {
