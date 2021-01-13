@@ -130,6 +130,7 @@ Each directory must contain a `reqest.json` file that contains the request defin
 {
     "BaseUrl": "http://localhost:5000",
     "Name": "catalog",
+    "Description": "Catalog",
     "Path": "/api/catalog/",
     "QueryParams": {},
     "Headers": {
@@ -150,6 +151,8 @@ Each directory must contain a `reqest.json` file that contains the request defin
 `BaseUrl`: Base URL to your API. *(If not specified, the value from `settings.json` is used)*
 
 `Name`: Name of request. *(Will be used when defining the dependency, see below)*
+
+`Description`: Is used in logging. *(optional, if not set, then `Name` is used)*
 
 `Path`: API path.
 

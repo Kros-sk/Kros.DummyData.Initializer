@@ -21,7 +21,7 @@ namespace Kros.DummyData.Initializer
 
             await foreach (Request request in context.GetRequestsAsync())
             {
-                using var _ = context.Logger.BeginScope("Request '{request}' =>", request.Name);
+                using var _ = context.Logger.BeginScope("Request '{request}' =>", request.Description);
                 var httpRequest = await context.GetHttpRequestAsync(request);
                 LogRequest(context, httpRequest);
 

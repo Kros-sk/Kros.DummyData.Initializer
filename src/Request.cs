@@ -11,6 +11,7 @@ namespace Kros.DummyData.Initializer
     public class Request
     {
         private string _id;
+        private string _description;
         private IEnumerable<RepeatDefinition> _repeatDefinitions;
 
         internal string Id
@@ -37,6 +38,11 @@ namespace Kros.DummyData.Initializer
         /// Gets or sets the name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        public string Description { get => _description ?? Name; set => _description = value; }
 
         /// <summary>
         /// Gets or sets the path.
