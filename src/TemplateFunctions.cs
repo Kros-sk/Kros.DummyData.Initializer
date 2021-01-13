@@ -99,5 +99,14 @@ namespace Kros.DummyData.Initializer
         /// <param name="key">The key.</param>
         public static string GetByKey(Dictionary<string, string> variables, string key)
             => variables[key];
+
+        /// <summary>
+        /// Pads the left.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="totalWidth">The total width.</param>
+        /// <param name="paddingChar">The padding character.</param>
+        public static string PadLeft(int value, int totalWidth, char paddingChar = '0')
+            => value.ToString().PadLeft(totalWidth, paddingChar);
     }
 }

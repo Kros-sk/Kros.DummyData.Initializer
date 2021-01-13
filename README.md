@@ -295,6 +295,20 @@ Params:
 value = get_by_key outputs "key"
 ```
 
+#### pad_left
+
+Returns a new string that right-aligns the characters in this instance by padding
+them on the left with a specified Unicode character, for a specified total length.
+
+Params: 
+
+- `totalWidth`: the number of characters in the resulting string, equal to the number of original characters plus any additional padding characters.
+- `paddingChar`: A Unicode padding character. *(opional, default value is `0`)*
+
+```properties
+value | pad_left 2 '0'
+```
+
 ## Repeat definitions
 
 For `preview` command is allowed function named repating. Sometimes you need to use a same request definition multiple times, for example for multiple users, tenants, ... In this case, you can create a `repeat.json` file in the directory where the request definition is located. This file contains a list of iterations defined by name, and it is possible to add custom variables to each iteration to be used in further processing.
