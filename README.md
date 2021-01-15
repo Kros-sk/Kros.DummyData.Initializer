@@ -127,7 +127,7 @@ The definition of requests and data that will be sent to your API is in separate
     └─ 🗄️ orders.json
 ```
 
-Each directory must contain a `reqest.json` file that contains the request definition and at least one `JSON` data file that contains the data *(or data template)*.
+Each directory must contain a `request.json` file that contains the request definition and at least one `JSON` data file that contains the data *(or data template)*.
 
 ```json
 {
