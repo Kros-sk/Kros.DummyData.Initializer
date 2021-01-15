@@ -85,7 +85,8 @@ The `--source` parameter defines the path to the directory where the data that w
             "Name": "userName",
             "Password": "userPassword"
         }
-    }
+    },
+    "MaxConcurrencyCount": 8
 }
 ```
 
