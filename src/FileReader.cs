@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Scriban;
-using Scriban.Runtime;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -14,7 +12,6 @@ namespace Kros.DummyData.Initializer
     public class FileReader
     {
         private readonly ILogger _logger;
-        private readonly TemplateFunctions _functions = new TemplateFunctions();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileReader"/> class.
@@ -75,40 +72,10 @@ namespace Kros.DummyData.Initializer
         {
             _logger.LogTrace("Read file: '{0}'", filePath);
 
-            Template template = Template.Parse(await File.ReadAllTextAsync(filePath));
-            TemplateContext c = CreateScribanContext(context);
-
-            string result = await template.RenderAsync(c);
-
-            ReportErrors(template);
+            string templateText = await File.ReadAllTextAsync(filePath);
+            string result = await TemplateProcessor.ProcessAsync(templateText, context, _logger);
 
             return result;
-        }
-
-        private TemplateContext CreateScribanContext(ITemplateContext context)
-        {
-            var c = new CustomTemplateContext();
-            var scriptObject = new ScriptObject();
-            scriptObject.Import(new
-            {
-                variables = context.Variables,
-                outputs = context.Outputs
-            });
-            c.PushGlobal(scriptObject);
-            c.PushGlobal(_functions);
-
-            return c;
-        }
-
-        private void ReportErrors(Template template)
-        {
-            if (template.HasErrors)
-            {
-                foreach (Scriban.Parsing.LogMessage error in template.Messages)
-                {
-                    _logger.LogWarning(error.Message);
-                }
-            }
         }
     }
 }

@@ -103,6 +103,8 @@ The `--source` parameter defines the path to the directory where the data that w
 
 `AuthOptions`: Settings for the authorization handler. Currently only IdentityServer is supported. *(optional)*
 
+`MaxConcurrencyCount`: Maximum of requests executed in parallel. *(optional, Default is `1` - no concurrency.)*
+
 ### Definition of requests
 
 The definition of requests and data that will be sent to your API is in separate directories. Directories are processed in alphabetical order, so I recommend using a numeric prefix to define the order.

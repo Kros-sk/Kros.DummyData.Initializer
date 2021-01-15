@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Polly.Timeout;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Polly.Extensions.Http;
 
 namespace Kros.DummyData.Initializer
 {
@@ -21,14 +22,14 @@ namespace Kros.DummyData.Initializer
                 });
 
         private static AsyncRetryPolicy<HttpResponseMessage> RetryPolicy(IEnumerable<int> retry, ILogger logger)
-            => Policy
-                    .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
-                    .Or<TimeoutRejectedException>()
-                    .WaitAndRetryAsync(retry.Select(r=> TimeSpan.FromSeconds(r)),
-                        (delegateResult, retryCount) =>
-                        {
-                            logger.LogWarning($"Retry delegate fired, attempt {retryCount}.");
-                        });
+            => HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .Or<TimeoutRejectedException>()
+                .WaitAndRetryAsync(retry.Select(r=> TimeSpan.FromSeconds(r)),
+                (delegateResult, retryCount) =>
+                {
+                    logger.LogWarning($"Retry delegate fired, attempt {retryCount}.");
+                });
 
         public static AsyncPolicyWrap<HttpResponseMessage> PolicyStrategy(int timeoute, IEnumerable<int> retry, ILogger logger)
             => Policy.WrapAsync(RetryPolicy(retry, logger), TimeoutePolicy(timeoute, logger));

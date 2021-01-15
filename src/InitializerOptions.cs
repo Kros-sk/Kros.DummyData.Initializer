@@ -36,9 +36,17 @@ namespace Kros.DummyData.Initializer
         public List<int> Retrying { get; set; } = new List<int>() { 1, 3 };
 
         /// <summary>
+        /// Gets or sets the maximum concurrency count. (Default is 1, no concurrency)
+        /// </summary>
+        /// <value>
+        /// The maximum concurrency count.
+        /// </value>
+        public int MaxConcurrencyCount { get; set; } = 1;
+
+        /// <summary>
         /// Gets or sets the request time out in second.
         /// </summary>
-        public int RequestTimeOut { get; set; } = 5;
+        public int RequestTimeOut { get; set; } = 10;
 
         /// <summary>
         /// Gets or sets the authentification options.

@@ -142,10 +142,11 @@ namespace Kros.DummyData.Initializer
         /// Gets the HTTP request asynchronous.
         /// </summary>
         /// <param name="request">The request.</param>
+        /// <param name="variables">The variables.</param>
         /// <returns></returns>
-        public async Task<IFlurlRequest> GetHttpRequestAsync(Request request)
+        public async Task<IFlurlRequest> GetHttpRequestAsync(Request request, Dictionary<string, string> variables)
         {
-            Url url = (request.BasePath ?? Options.BaseUrl).AppendPathSegment(request.Path);
+            Url url = await GetUrlAsync(request, variables);
             url = AddQueryParams(request, url);
             IFlurlRequest httpRequest = url.ConfigureRequest((o) => { });
 
@@ -154,6 +155,19 @@ namespace Kros.DummyData.Initializer
             await _authentificationHandler.HandleAsync(httpRequest, request, this);
 
             return httpRequest;
+        }
+
+        /// <summary>
+        /// Gets the URL.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="variables">The variables.</param>
+        public async Task<Url> GetUrlAsync(Request request, Dictionary<string, string> variables)
+        {
+            string path = await TemplateProcessor.ProcessAsync(request.Path, this.CloneAndMerge(variables), Logger);
+            path = await TemplateProcessor.ProcessAsync(path, this, Logger);
+
+            return (request.BasePath ?? Options.BaseUrl).AppendPathSegment(path);
         }
 
         private void AddHeaders(Request request, IFlurlRequest httpRequest)

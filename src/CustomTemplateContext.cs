@@ -14,7 +14,7 @@ namespace Kros.DummyData.Initializer
             var value = await base.EvaluateAsync(scriptNode, aliasReturnedFunction);
             if ((scriptNode is ScriptMemberExpression sm)
                 && (sm.Target is ScriptVariableGlobal v)
-                && v.BaseName == Constants.Outputs
+                && (v.BaseName == Constants.Outputs || v.BaseName == Constants.Variables)
                 && (value is null))
             {
                 value = string.Concat("{{", scriptNode.ToString(), "}}");
