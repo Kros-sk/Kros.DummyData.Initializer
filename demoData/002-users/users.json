@@ -1,9 +1,9 @@
-[    
+[
     {
         {{
             person = random_person
         }}
-        "requestId": 1,
+        "requestId": "1",
         "firstName": "{{ person.first_name }}",
         "lastName": "{{ person.last_name }}",
         "email":"{{ person.mail }}"
@@ -12,7 +12,7 @@
         {{
             person = random_person
         }}
-        "requestId": 2,
+        "requestId": "2",
         "firstName": "{{ person.first_name }}",
         "lastName": "{{ person.last_name }}",
         "email":"{{ person.mail }}"
