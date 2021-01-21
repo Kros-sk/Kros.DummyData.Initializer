@@ -59,17 +59,19 @@ namespace Kros.DummyData.Initializer
 
             _fileReader = new FileReader(loggerFactory.CreateLogger<FileReader>());
             var options = await CheckAndLoadOptionsAsync(sourceDirectory);
-            FlurlHttp.Configure(s =>
-                s.HttpClientFactory = new PollyHttpClientFactory(
+            var httpContextFactory = new PollyHttpClientFactory(
                     options.RequestTimeOut,
                     options.Retrying,
                     options.Proxy,
-                    loggerFactory.CreateLogger("Polly")));
+                    loggerFactory.CreateLogger("Polly"));
+
+            FlurlHttp.Configure(s =>
+                s.HttpClientFactory = httpContextFactory);
 
             var context = new InitializerContext
             {
                 _directoryInfo = sourceDirectory,
-                _authentificationHandler = AuthentificationHandlerFactory.Create(options.AuthOptions),
+                _authentificationHandler = AuthentificationHandlerFactory.Create(options.AuthOptions, httpContextFactory),
                 Logger = loggerFactory.CreateLogger(""),
                 Options = options
             };

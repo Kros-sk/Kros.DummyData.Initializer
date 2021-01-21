@@ -1,4 +1,5 @@
 ﻿using Flurl.Http;
+using Flurl.Http.Configuration;
 using System.Threading.Tasks;
 
 namespace Kros.DummyData.Initializer
@@ -12,14 +13,17 @@ namespace Kros.DummyData.Initializer
         /// Creates the specified auhentification handler.
         /// </summary>
         /// <param name="options">The options.</param>
-        public static IAuthentificationHandler Create(AuthentificationOptions options)
+        /// <param name="httpClientFactory">HTTP Client factory.</param>
+        public static IAuthentificationHandler Create(
+            AuthentificationOptions options,
+            IHttpClientFactory httpClientFactory)
         {
             if (options is null)
             {
                 return DummyAuthentificationHandler.Default;
             }
 
-            return new IdentityServerAuthentificationHandler(options);
+            return new IdentityServerAuthentificationHandler(options, httpClientFactory);
         }
 
         private class DummyAuthentificationHandler : IAuthentificationHandler

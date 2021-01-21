@@ -1,10 +1,10 @@
 ﻿using Flurl.Http;
+using Flurl.Http.Configuration;
 using IdentityModel.Client;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Kros.DummyData.Initializer
@@ -16,15 +16,18 @@ namespace Kros.DummyData.Initializer
     public class IdentityServerAuthentificationHandler : IAuthentificationHandler
     {
         private readonly AuthentificationOptions _options;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMemoryCache _cache = new MemoryCache(Options.Create(new MemoryCacheOptions()));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IdentityServerAuthentificationHandler"/> class.
         /// </summary>
         /// <param name="options">The options.</param>
-        public IdentityServerAuthentificationHandler(AuthentificationOptions options)
+        /// <param name="httpClientFactory">The HTTP client factory.</param>
+        public IdentityServerAuthentificationHandler(AuthentificationOptions options, IHttpClientFactory httpClientFactory)
         {
             _options = options;
+            _httpClientFactory = httpClientFactory;
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace Kros.DummyData.Initializer
 
         private async Task<string> GetTokenAsync(User user, ILogger logger)
         {
-            var client = new HttpClient();
+            var client = _httpClientFactory.CreateHttpClient(_httpClientFactory.CreateMessageHandler());
 
             var disco = await client.GetDiscoveryDocumentAsync(_options.AuthServer.AbsoluteUri);
             if (disco.IsError)
