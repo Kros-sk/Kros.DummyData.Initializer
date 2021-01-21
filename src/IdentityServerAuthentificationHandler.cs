@@ -51,7 +51,7 @@ namespace Kros.DummyData.Initializer
 
         private async Task<string> GetTokenAsync(User user, ILogger logger)
         {
-            var client = _httpClientFactory.CreateHttpClient(_httpClientFactory.CreateMessageHandler());
+            using var client = _httpClientFactory.CreateHttpClient(_httpClientFactory.CreateMessageHandler());
 
             var disco = await client.GetDiscoveryDocumentAsync(_options.AuthServer.AbsoluteUri);
             if (disco.IsError)
