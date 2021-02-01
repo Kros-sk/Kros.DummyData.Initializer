@@ -24,6 +24,7 @@ namespace Kros.DummyData.Initializer
         private static AsyncRetryPolicy<HttpResponseMessage> RetryPolicy(IEnumerable<int> retry, ILogger logger)
             => HttpPolicyExtensions
                 .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 .Or<TimeoutRejectedException>()
                 .WaitAndRetryAsync(retry.Select(r=> TimeSpan.FromSeconds(r)),
                 (delegateResult, retryCount) =>
