@@ -110,6 +110,10 @@ namespace Kros.DummyData.Initializer
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
+                logger.LogWarning("Request URL: {url}.", httpRequest.Url);
+                logger.LogWarning("Request Headers: {headers}.", httpRequest.Headers);
+                logger.LogWarning("Request Body: {body}", body.GetRawText());
+
                 if (!request.ContinueOnError)
                 {
                     throw;
