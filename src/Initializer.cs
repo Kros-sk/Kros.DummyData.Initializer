@@ -29,6 +29,8 @@ namespace Kros.DummyData.Initializer
                 var sw = Stopwatch.StartNew();
 
                 await ExecuteBodies(context, request);
+
+                context.Logger.LogTrace("Outputs: '{outputs}'", context.Outputs);
                 context.Logger.LogInformation("End request executing ({duration}).", sw.Elapsed);
             }
 
@@ -67,7 +69,7 @@ namespace Kros.DummyData.Initializer
                 using var _ = context.Logger.BeginScope("RequestId '{id}' =>", requestId);
                 context.Logger.LogTrace("Start");
 
-                string resounseBody = await GetResponseAsync(request, body, httpRequest, context.Logger, sw);
+                string resounseBody = await GetResponseAsync(request, body, httpRequest, context.Logger, sw, context);
 
                 if (request.CanExtractResponse && resounseBody != null)
                 {
@@ -95,7 +97,8 @@ namespace Kros.DummyData.Initializer
             JsonElement body,
             IFlurlRequest httpRequest,
             ILogger logger,
-            Stopwatch stopwatch)
+            Stopwatch stopwatch,
+            InitializerContext context)
         {
             try
             {
@@ -113,6 +116,7 @@ namespace Kros.DummyData.Initializer
                 logger.LogWarning("Request URL: {url}.", httpRequest.Url);
                 logger.LogWarning("Request Headers: {headers}.", httpRequest.Headers);
                 logger.LogWarning("Request Body: {body}", body.GetRawText());
+                logger.LogWarning("Outputs: {outputs}", context.Outputs);
 
                 if (!request.ContinueOnError)
                 {
