@@ -4,6 +4,7 @@ using Kros.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace Kros.DummyData.Initializer
         /// Gets the variables.
         /// </summary>
         public IDictionary<string, string> Outputs { get; private set; }
-            = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            = new ConcurrentDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Creates the context.
