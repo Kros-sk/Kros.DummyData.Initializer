@@ -97,7 +97,7 @@ namespace Kros.DummyData.Initializer
         /// </summary>
         /// <param name="variables">The variables.</param>
         /// <param name="key">The key.</param>
-        public static string GetByKey(Dictionary<string, string> variables, string key)
+        public static string GetByKey(IDictionary<string, string> variables, string key)
             => variables[key];
 
         /// <summary>
